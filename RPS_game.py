@@ -1,34 +1,63 @@
-import random
+import random 
 
-def get_user_choice():
-    choice = input("Enter Rock, Paper, or Scissors: ").strip().lower()
-    if choice in ["rock", "paper", "scissors"]:
-        return choice
-    else:
-        print("Invalid choice. Please try again.")
-        return get_user_choice()
+def game():
+    score = 0
+    high_score = 0
 
-def get_computer_choice():
-    return random.choice(["rock", "paper", "scissors"])
+    while True:
+        print("********************************************************************************************************************************")
+        print(f"Current Score: {score}")
+        print(f"Highest Score: {high_score}")
+        print("********************************************************************************************************************************")
+        print("1. Play Rock-Paper-Scissors")
+        print("2. Reset High Score")
+        print("3. Exit Game")
 
-def determine_winner(user, computer):
-    if user == computer:
-        return "It's a tie!"
-    if (user == "rock" and computer == "scissors") or \
-       (user == "paper" and computer == "rock") or \
-       (user == "scissors" and computer == "paper"):
-        return "You win!"
-    return "You lose!"
+        choice = input("Enter your choice (1-3): ")
 
-def play():
-    user_choice = get_user_choice()
-    computer_choice = get_computer_choice()
+        if choice == '1':
+            print("\nChoose your move:")
+            print("1. Rock")
+            print("2. Paper")
+            print("3. Scissors")
+            user_choice = input("Enter your choice (1-3): ")
 
-    print(f"\nYou chose: {user_choice.capitalize()}")
-    print(f"Computer chose: {computer_choice.capitalize()}")
+            if user_choice not in ['1', '2', '3']:
+                print("Invalid choice! Please enter a number between 1 and 3.")
+                continue
 
-    result = determine_winner(user_choice, computer_choice)
-    print(result)
+            moves = { '1': 'Rock', '2': 'Paper', '3': 'Scissors' }
+            user_move = moves[user_choice]
+            computer_move = random.choice(['Rock', 'Paper', 'Scissors'])
 
-if __name__ == "__main__":
-    play()
+            print(f"\nYou chose: {user_move}")
+            print(f"Computer chose: {computer_move}")
+
+            # Determine the winner
+            if user_move == computer_move:
+                print("It's a tie!")
+            elif (user_move == 'Rock' and computer_move == 'Scissors') or \
+                 (user_move == 'Paper' and computer_move == 'Rock') or \
+                 (user_move == 'Scissors' and computer_move == 'Paper'):
+                print("You win!")
+                score += 1
+                if score >= high_score:  # Changed operator to >=
+                    high_score = score
+                    print("New Highest Score!")
+            else:
+                print("You lose!")
+                score = 0  # Reset current score on loss
+
+        elif choice == '2':
+            score = 0
+            high_score = 0
+            print("Scores have been reset!")
+
+        elif choice == '3':
+            print("Game Over!")
+            break
+
+        else:
+            print("Invalid choice! Please enter a number between 1 and 3.")
+
+game()
